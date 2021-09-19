@@ -43,7 +43,7 @@ if Shift_rank(j) == h
             Schedule(j) = k;
             Staff(k) = 1;
             break
-        else
+        else 
         end
     end
 else
@@ -52,10 +52,50 @@ end
 end
 Schedule
 
+% Finish schedule based upon availibility.
+for h = 1:m
+shift_avail = zeros(n,1);
+%Collect just the selected shift from staff.
+for s = 1:n
+    % a starts my while loop and shuffles through Shift_rank
+    a = 1;
+    % d will make sure to select the correct staff's avail.
+    d = 1;
+    while Shift_rank(a) ~= h
+        d = Shift_rank(a);
+        a = a+1;
+    end
+    shift_avail(s) = A(d+m*(s-1));
+end
+
+%Select shift_rank
+for j = 1:m
+if Shift_rank(j) == h
+    for f = 1:m
+        if Schedule(f) == 0
+            for x = 1:n
+                if Staff(x) == 0 && shift_avail(x) == 0
+                    Schedule(f) = x;
+                    Staff(x) = 1;
+                    break
+                end
+            end
+         else
+         end
+     end
+end
+end
+end
+Schedule
+
+for r = 1:m
+    if Schedule(r) == 0
+        fprintf('No one is available to work shift %d\n', r);
+    else
+    end
+end
 % WE STILL NEED TO TAKE IN TO CONSIDERATION:
     % SHIFTS THAT REQUIRE MULTIPLE STAFF MEMBERS.
-    % SHIFTS WHERE NO ONE PREFERS TO WORK, BUT SOME ARE AVAILABLE.
-    % SHIFTS WHERE NO ONE CAN WORK.
     % CREATE A FUNCTION THAT REORGANIZES THE STAFF MEMBERS TO ELIMINATE
     % BIASES.
     
