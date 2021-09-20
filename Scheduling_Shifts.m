@@ -1,4 +1,4 @@
-function [Day_Schedule, Unschedule_Shift] = Scheduling_Shifts(A, Shift_rank, m, n)
+function [Day_Schedule, Unschedule_Shift] = Scheduling_Shifts(A, Shift_rank, m, n, sched)
 % THIS SCRIPT CREATES A SCHEDULE STARTING WITH THE IMPORTANT SHIFTS
 
 % Called from Scheduling script.
@@ -17,20 +17,17 @@ Staff = zeros(n,1);
 %A(1,i:i+(m-1)) = randi([-1,1],1,m);
 %end
 
-%Focus on shift_rank 1:
+%h represents happiness scale order. So starting with Shift_rank = 1.
 for h = 1:m
 shift_avail = zeros(n,1);
 %Collect just the selected shift from staff.
 for s = 1:n
-    % a starts my while loop and shuffles through Shift_rank
+    %Start while loop and a will be the shift that is rank = h.
     a = 1;
-    % d will make sure to select the correct staff's avail.
-    d = 1;
     while Shift_rank(a) ~= h
-        d = Shift_rank(a);
         a = a+1;
     end
-    shift_avail(s) = A(d+m*(s-1));
+    shift_avail(s) = A(a+m*(s-1));
 end
 %shift_avail
 %Select shift_rank
@@ -40,9 +37,15 @@ if Shift_rank(j) == h
         % preffered = 1, so we want to pick staff memebers that prefer to 
         % to work that shift.
         if shift_avail(k) == 1 && Staff(k) == 0
-            Day_Schedule(j) = k;
-            Staff(k) = 1;
-            break
+            if mod(sched-1+k,n) == 0
+                Day_Schedule(j) = 6;
+                Staff(k) = 1;
+                break
+            else
+                Day_Schedule(j) = mod(sched-1+k,n); % = k for shed = 1
+                Staff(k) = 1;
+                break
+            end
         else 
         end
     end
@@ -59,13 +62,10 @@ shift_avail = zeros(n,1);
 for s = 1:n
     % a starts my while loop and shuffles through Shift_rank
     a = 1;
-    % d will make sure to select the correct staff's avail.
-    d = 1;
     while Shift_rank(a) ~= h
-        d = Shift_rank(a);
         a = a+1;
     end
-    shift_avail(s) = A(d+m*(s-1));
+    shift_avail(s) = A(a+m*(s-1));
 end
 
 %Select shift_rank
@@ -75,9 +75,15 @@ if Shift_rank(j) == h
         if Day_Schedule(f) == 0
             for x = 1:n
                 if Staff(x) == 0 && shift_avail(x) == 0
-                    Day_Schedule(f) = x;
-                    Staff(x) = 1;
-                    break
+                    if mod(sched-1+x,n) == 0
+                        Day_Schedule(f) = 6;
+                        Staff(x) = 1;
+                        break
+                    else
+                        Day_Schedule(f) = mod(sched-1+x,n);
+                        Staff(x) = 1;
+                        break
+                    end
                 end
             end
          else
