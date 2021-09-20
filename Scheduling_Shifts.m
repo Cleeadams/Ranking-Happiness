@@ -38,7 +38,7 @@ if Shift_rank(j) == h
         % to work that shift.
         if shift_avail(k) == 1 && Staff(k) == 0
             if mod(sched-1+k,n) == 0
-                Day_Schedule(j) = 6;
+                Day_Schedule(j) = n;
                 Staff(k) = 1;
                 break
             else
@@ -76,7 +76,7 @@ if Shift_rank(j) == h
             for x = 1:n
                 if Staff(x) == 0 && shift_avail(x) == 0
                     if mod(sched-1+x,n) == 0
-                        Day_Schedule(f) = 6;
+                        Day_Schedule(f) = n;
                         Staff(x) = 1;
                         break
                     else
@@ -94,7 +94,7 @@ end
 end
 %Day_Schedule
 
-%Stroing the failures as vectors
+%Storing the failures as vectors
 outcome = 1;
 for r = 1:m
     if Day_Schedule(r) == 0
