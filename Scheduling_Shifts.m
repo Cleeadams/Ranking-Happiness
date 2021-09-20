@@ -71,24 +71,22 @@ end
 %Select shift_rank
 for j = 1:m
 if Shift_rank(j) == h
-    for f = 1:m
-        if Day_Schedule(f) == 0
+        if Day_Schedule(j) == 0
             for x = 1:n
                 if Staff(x) == 0 && shift_avail(x) == 0
                     if mod(sched-1+x,n) == 0
-                        Day_Schedule(f) = n;
+                        Day_Schedule(j) = n;
                         Staff(x) = 1;
                         break
                     else
-                        Day_Schedule(f) = mod(sched-1+x,n);
+                        Day_Schedule(j) = mod(sched-1+x,n);
                         Staff(x) = 1;
                         break
                     end
                 end
             end
-         else
-         end
-     end
+        else
+        end
 end
 end
 end

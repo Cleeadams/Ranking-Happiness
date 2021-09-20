@@ -1,29 +1,6 @@
-function [Shift_rank, A] = Scheduling(m,n)
+function [Shift_rank] = Scheduling(Sum_happy,m,n)
 % THIS SCRIPT ORGANIZES THE IMPORTANCE OF WHICH SHIFTS OF THE DAY
 % TO START WITH.
-
-%m -> shifts
-%m = 5;
-%n -> employees
-%n = 8;
-
-A = zeros(1,m*n);
-
-
-% One Day:
-
-for i = 1:m:m*n
-A(1,i:i+(m-1)) = randi([-1,1],1,m);
-end
- 
-Sum_happy = zeros(m,1);
-
-for i = 1:m
-   for t = 1:n
-      Sum_happy(i) = A(1,m*(t-1)+i) + Sum_happy(i);
-   end
-end
-%Sum_happy
 
 Shift_rank = m*ones(m,1);
 
